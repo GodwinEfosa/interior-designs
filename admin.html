@@ -824,8 +824,8 @@ function showPasswordResetForm(session) {
         resetSuccess.classList.remove('show');
 
         const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-            redirectTo: window.location.href.split('#')[0]
-        });
+    redirectTo: 'https://nativeexecellence.vercel.app/admin.html'
+});
 
         if (error) {
             resetError.textContent = error.message;

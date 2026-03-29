@@ -619,6 +619,7 @@
 
 <script>
     const _initialHash = window.location.hash;
+    let isPasswordRecovery = _initialHash.includes('type=recovery') || _initialHash.includes('access_token');
     // ==================== SUPABASE — SINGLE INIT ====================
     const supabaseClient = window.supabase.createClient(
         'https://cenclpqcdjqgrtedqcmf.supabase.co',
@@ -659,11 +660,13 @@
 
     supabaseClient.auth.onAuthStateChange((event, session) => {
     if (event === 'PASSWORD_RECOVERY') {
+        isPasswordRecovery = true;
         showPasswordResetForm(session);
-    } else if (session) {
+    } else if (session && !isPasswordRecovery) {
         currentUser = session.user;
         showDashboard();
-    } else {
+    } else if (!session) {
+        isPasswordRecovery = false;
         currentUser = null;
         showLogin();
     }
@@ -735,7 +738,8 @@ function showPasswordResetForm(session) {
             updateSuccess.textContent = 'Password updated! Redirecting to login...';
             updateSuccess.classList.add('show');
             await supabaseClient.auth.signOut();
-            window.location.hash = '';
+              isPasswordRecovery = false;
+              window.location.hash = '';
             setTimeout(() => {
                 resetCompleteForm.remove();
                 loginForm.classList.remove('hidden');

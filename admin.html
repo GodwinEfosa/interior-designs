@@ -618,6 +618,7 @@
 -->
 
 <script>
+    const _initialHash = window.location.hash;
     // ==================== SUPABASE — SINGLE INIT ====================
     const supabaseClient = window.supabase.createClient(
         'https://cenclpqcdjqgrtedqcmf.supabase.co',
@@ -638,7 +639,7 @@
     try {
         // If this is a password recovery link, let onAuthStateChange handle it
         const hash = window.location.hash;
-        if (hash.includes('type=recovery') || hash.includes('access_token')) {
+        if (_initialHash.includes('type=recovery') || _initialHash.includes('access_token')) {
             return;
         }
 

@@ -829,7 +829,7 @@ function showPasswordResetForm(session) {
         resetSuccess.classList.remove('show');
 
         const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-    redirectTo: 'https://nativeexecellence.vercel.app/admin.html'
+    redirectTo: 'https://aloyprojects.vercel.app/admin.html'
 });
 
         if (error) {
